@@ -1,7 +1,7 @@
 :root{
     font-size: 16px;
 }
-main{
+*{
     margin: 0 0;
 }
 li {
@@ -12,6 +12,19 @@ li {
 }
 button{
     border-style: none;
+}
+ul{
+    padding-top: 15vh;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 15vh;
+    background-color: #FFF;
+    position: fixed;
 }
 
 .supContainer{
