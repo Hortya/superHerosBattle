@@ -3,9 +3,12 @@ const ul = document.getElementById('allSup')
 
 function displayCharacters(allHeroesSheets) {
     allHeroesSheets.forEach(herosObject => {
-        const li = document.createElement('li');
-        li.innerHTML = `<img class="herosImg" src="${herosObject.images.sm}"/> <button data-id=${herosObject.id} class='button js-btn'>${herosObject.name}</button>`
-        ul.appendChild(li)
+        const herosList = document.getElementById('supItm');
+        const hero = document.importNode(herosList.content, true);
+        hero.querySelector('.js-sup-name').textContent = herosObject.name;
+        hero.querySelector('.js-sup-img').src = herosObject.images.sm;
+        hero.querySelector('.js-sup-img').alt = `photo de ${herosObject.name}`
+        ul.appendChild(hero)
     });
 }
 
@@ -29,16 +32,15 @@ function displayCharacters(allHeroesSheets) {
 //     array.push(event.target.dataset.id);
 // }
 
-function addOnClick(array) {
+function addOnClick(array, fighters) {
     ul.addEventListener('click', function (event) {
         if (!event.target.classList.contains('js-btn')) return;
         const li = document.createElement('li');
         li.innerHTML = event.target.parentNode.innerHTML
         document.getElementById('selectedSup').appendChild(li)
+        fighters.push(array.filter((heros) => heros.id == event.target.dataset.id))
         event.target.parentNode.remove()
-        // puttInTheArray(event, array)
-
-        console.log(array);
+        console.log(fighters);
     })
 }
 
@@ -49,9 +51,7 @@ function removeOnClick(array) {
         li.innerHTML = event.target.parentNode.innerHTML
         document.getElementById('allSup').appendChild(li)
         event.target.parentNode.remove()
-        // puttInTheArray(event, array)
 
-        console.log(array);
     })
 }
 
@@ -73,8 +73,9 @@ async function battleRoyal() {
         displayCharacters(allHeroesSheets);
         let fighters = [];
 
-        addOnClick(fighters);
-        removeOnClick(fighters)
+        addOnClick(allHeroesSheets, fighters);
+        removeOnClick(fighters);
+
 
         // document.getElementById('battle').addEventListener('click', function(event, fighters){
 
@@ -84,6 +85,20 @@ async function battleRoyal() {
         console.error(e)
     }
 }
+
+
+
+function battleStart(fighters) {
+    document.getElementById('battle').addEventListener('click', () => {
+        
+
+    })
+}
+
+
+
+
+
 
 battleRoyal()
 
