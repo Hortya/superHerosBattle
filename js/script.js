@@ -38,6 +38,7 @@ function displayCharacters(allHeroesSheets) {
 //     array.push(event.target.dataset.id);
 // }
 
+
 function addOnClick(array, fighters) {
     ul.addEventListener('click', function (event) {
         if (!event.target.classList.contains('js-btn')) return;
@@ -81,7 +82,7 @@ async function battleRoyal() {
 
         addOnClick(allHeroesSheets, fighters);
         // removeOnClick(fighters);
-        battleStart(fighters)
+       const fightersArray = battleStart();
 
         // document.getElementById('battle').addEventListener('click', function(event, fighters){
 
@@ -94,9 +95,22 @@ async function battleRoyal() {
 
 
 
-function battleStart(fighters) {
+/**
+ * Do an array with all selected characters when "Let's Ramble" btn is clicked
+ * @return {array} the fighter's stats array
+ */
+function battleStart() {
     document.getElementById('battle').addEventListener('click', () => {
-        
+        let fightersSheets = [];
+        document.querySelectorAll('#selectedSup li').forEach((sup)=>{
+            let fighterSelected =  {};
+            fighterSelected.name = sup.querySelector('.js-sup-name').innerText;
+            fighterSelected.intel =  sup.querySelector('.js-intel').innerText;
+            fighterSelected.strength =  sup.querySelector('.js-strength').innerText;
+            fighterSelected.speed =  sup.querySelector('.js-speed').innerText;
+            fightersSheets.push(fighterSelected)
+        })
+        return fightersSheets;
     })
 }
 
