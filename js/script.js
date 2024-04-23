@@ -1,6 +1,9 @@
 const ul = document.getElementById('allSup')
 
-
+/**
+*display of an image associated with button.
+*@param {array} allHeroesSheets - array with all characters.
+*/
 function displayCharacters(allHeroesSheets) {
     allHeroesSheets.forEach(herosObject => {
         const herosList = document.getElementById('supItm');
@@ -20,25 +23,13 @@ function displayCharacters(allHeroesSheets) {
 
 
 
-// function puttInTheArray(event, array) {
-//     let isInTheArray;
-
-//     for (const id of array) {
-//         if (id === event.target.dataset.id) {
-
-//             isInTheArray = true;
-//         };
-//     }
-
-//     if (isInTheArray === true) {
-//         alert("Vous ne pouvez pas selectionner le même personnage");
-//         return
-//     }
-
-//     array.push(event.target.dataset.id);
-// }
 
 
+/**
+* Allows to click on button to fightersList to add character to selectedList on click.
+* @param {array} array - list of fighters characters
+* @param {array} fighters - list of selected characters.
+*/
 function addOnClick(array, fighters) {
     ul.addEventListener('click', function (event) {
         if (!event.target.classList.contains('js-btn')) return;
@@ -51,6 +42,10 @@ function addOnClick(array, fighters) {
     })
 }
 
+/**
+* Allows to click on the button to deselect the fighter.
+* @param {array} array - list of selected characters.
+*/
 function removeOnClick(array) {
     document.getElementById('selectedSup').addEventListener('click', function (event) {
         if (!event.target.classList.contains('js-btn')) return;
@@ -62,6 +57,10 @@ function removeOnClick(array) {
     })
 }
 
+/**
+ * Generate array from an API.
+ * @returns {array} - array an all characters.
+ */
 async function MakeHerosArray() {
     try {
         const response = await fetch("https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json");
@@ -70,6 +69,29 @@ async function MakeHerosArray() {
     catch (e) {
         console.error(e)
     }
+}
+
+
+
+
+
+/**
+ * Do an array with all selected characters when "Let's Ramble" btn is clicked
+ * @return {array} the fighter's stats array
+ */
+function battleStart() {
+    document.getElementById('battle').addEventListener('click', () => {
+        let fightersSheets = [];
+        document.querySelectorAll('#selectedSup li').forEach((sup)=>{
+            let fighterSelected =  {};
+            fighterSelected.name = sup.querySelector('.js-sup-name').innerText;
+            fighterSelected.intel =  sup.querySelector('.js-intel').innerText;
+            fighterSelected.strength =  sup.querySelector('.js-strength').innerText;
+            fighterSelected.speed =  sup.querySelector('.js-speed').innerText;
+            fightersSheets.push(fighterSelected)
+        })
+        return fightersSheets;
+    })
 }
 
 
@@ -95,45 +117,9 @@ async function battleRoyal() {
 
 
 
-/**
- * Do an array with all selected characters when "Let's Ramble" btn is clicked
- * @return {array} the fighter's stats array
- */
-function battleStart() {
-    document.getElementById('battle').addEventListener('click', () => {
-        let fightersSheets = [];
-        document.querySelectorAll('#selectedSup li').forEach((sup)=>{
-            let fighterSelected =  {};
-            fighterSelected.name = sup.querySelector('.js-sup-name').innerText;
-            fighterSelected.intel =  sup.querySelector('.js-intel').innerText;
-            fighterSelected.strength =  sup.querySelector('.js-strength').innerText;
-            fighterSelected.speed =  sup.querySelector('.js-speed').innerText;
-            fightersSheets.push(fighterSelected)
-        })
-        return fightersSheets;
-    })
-}
-
-
-
-
 
 
 battleRoyal()
 
 
 
-
-// const ulBattle = document.createElement('ul');
-// ulBattle.classList.add('battle');
-// ulBattle.id = 'battleTemplate';
-// document.body.appendChild(ulBattle)
-// fighters.forEach((fighter) => {
-//     const herosList = document.getElementById('battleItm');
-//     const hero = document.importNode(herosList.content, true);
-//     hero.querySelector('.js-sup-name').textContent = fighter[0].name;
-//     hero.querySelector('.js-sup-img').src = fighter[0].images.sm;
-//     hero.querySelector('.js-sup-img').alt = `photo de ${fighter[0].name}`;
-//     hero.querySelector('.js-sup-info').textContent = fighter[0].powerstats;
-//     document.getElementById('battleTemplate').appendChild(hero);
-// })
