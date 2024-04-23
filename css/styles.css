@@ -13,16 +13,32 @@ li {
 button{
     border-style: none;
 }
-ul{
-    padding-top: 15vh;
+
+.selectedContainer{
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.container{
+.herosImg{
+    height: 10rem;
+    aspect-ratio: 1/2;
+}
+
+.head{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.ttl{
+    padding-top: 30vh;
+}
+.selected{
+    text-align: center;
+}
+.container{
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 15vh;
     background-color: #FFF;
     position: fixed;
 }

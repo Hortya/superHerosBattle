@@ -1,11 +1,15 @@
+const ul = document.getElementById('allSup')
+
+
 function displayCharacters(allHeroesSheets) {
-    ul = document.getElementById('allSup')
     allHeroesSheets.forEach(herosObject => {
         const li = document.createElement('li');
-        li.innerHTML = `<img src="${herosObject.images.sm}"/> <button data-id=${herosObject.id} class='button js-btn'>${herosObject.name}</button>`
+        li.innerHTML = `<img class="herosImg" src="${herosObject.images.sm}"/> <button data-id=${herosObject.id} class='button js-btn'>${herosObject.name}</button>`
         ul.appendChild(li)
     });
 }
+
+
 
 // function puttInTheArray(event, array) {
 //     let isInTheArray;
@@ -28,46 +32,58 @@ function displayCharacters(allHeroesSheets) {
 function addOnClick(array) {
     ul.addEventListener('click', function (event) {
         if (!event.target.classList.contains('js-btn')) return;
-            const li = document.createElement('li');
-            li.innerHTML = event.target.parentNode.innerHTML
-            document.getElementById('selectedSup').appendChild(li)
-            event.target.parentNode.remove()
-            // puttInTheArray(event, array)
+        const li = document.createElement('li');
+        li.innerHTML = event.target.parentNode.innerHTML
+        document.getElementById('selectedSup').appendChild(li)
+        event.target.parentNode.remove()
+        // puttInTheArray(event, array)
 
-            console.log(array);
-        })
-    }
+        console.log(array);
+    })
+}
 
+function removeOnClick(array) {
+    document.getElementById('selectedSup').addEventListener('click', function (event) {
+        if (!event.target.classList.contains('js-btn')) return;
+        const li = document.createElement('li');
+        li.innerHTML = event.target.parentNode.innerHTML
+        document.getElementById('allSup').appendChild(li)
+        event.target.parentNode.remove()
+        // puttInTheArray(event, array)
+
+        console.log(array);
+    })
+}
 
 async function MakeHerosArray() {
-            try {
-                const response = await fetch("https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json");
-                return await response.json();
-            }
-            catch (e) {
-                console.error(e)
-            }
-        }
-    
+    try {
+        const response = await fetch("https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json");
+        return await response.json();
+    }
+    catch (e) {
+        console.error(e)
+    }
+}
+
 
 
 async function battleRoyal() {
-            try {
-                const allHeroesSheets = await MakeHerosArray();
-                displayCharacters(allHeroesSheets);
-                let fighters = [];
+    try {
+        const allHeroesSheets = await MakeHerosArray();
+        displayCharacters(allHeroesSheets);
+        let fighters = [];
 
-                addOnClick(fighters);
+        addOnClick(fighters);
+        removeOnClick(fighters)
 
+        // document.getElementById('battle').addEventListener('click', function(event, fighters){
 
-                // document.getElementById('battle').addEventListener('click', function(event, fighters){
-
-                // })
-            }
-            catch (e) {
-                console.error(e)
-            }
-        }
+        // })
+    }
+    catch (e) {
+        console.error(e)
+    }
+}
 
 battleRoyal()
 
