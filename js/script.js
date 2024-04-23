@@ -1,3 +1,17 @@
+/**
+ * Get a random value between 2 parametr
+ * @param {number} min minimal number
+ * @param {number} max maximal number
+ * @returns {number} random number between 2 parametr
+ */
+function getRandomBetweenValue(min, max) {
+    return Math.floor(min + Math.random() * (max + 1 - min))
+}
+
+
+
+
+
 const ul = document.getElementById('allSup')
 
 /**
@@ -30,15 +44,14 @@ function displayCharacters(allHeroesSheets) {
 * @param {array} array - list of fighters characters
 * @param {array} fighters - list of selected characters.
 */
-function addOnClick(array, fighters) {
+function addOnClick() {
     ul.addEventListener('click', function (event) {
         if (!event.target.classList.contains('js-btn')) return;
         const li = document.createElement('li');
         li.innerHTML = event.target.parentNode.innerHTML;
+        li.querySelector('.js-btn').textContent = 'Retirer';
         document.getElementById('selectedSup').appendChild(li);
-        fighters.push(array.filter((heros) => heros.id == event.target.dataset.id))
         event.target.parentNode.remove()
-        console.log(fighters);
     })
 }
 
@@ -46,11 +59,12 @@ function addOnClick(array, fighters) {
 * Allows to click on the button to deselect the fighter.
 * @param {array} array - list of selected characters.
 */
-function removeOnClick(array) {
+function removeOnClick() {
     document.getElementById('selectedSup').addEventListener('click', function (event) {
         if (!event.target.classList.contains('js-btn')) return;
         const li = document.createElement('li');
         li.innerHTML = event.target.parentNode.innerHTML
+        li.querySelector('.js-btn').textContent = 'Sélectionner';
         document.getElementById('allSup').appendChild(li)
         event.target.parentNode.remove()
 
@@ -79,18 +93,17 @@ async function MakeHerosArray() {
  * Do an array with all selected characters when "Let's Ramble" btn is clicked
  * @return {array} the fighter's stats array
  */
-function battleStart() {
+async function battleStart(fighters) {
     document.getElementById('battle').addEventListener('click', () => {
-        let fightersSheets = [];
-        document.querySelectorAll('#selectedSup li').forEach((sup)=>{
-            let fighterSelected =  {};
+        document.querySelectorAll('#selectedSup li').forEach((sup) => {
+            let fighterSelected = {};
             fighterSelected.name = sup.querySelector('.js-sup-name').innerText;
-            fighterSelected.intel =  sup.querySelector('.js-intel').innerText;
-            fighterSelected.strength =  sup.querySelector('.js-strength').innerText;
-            fighterSelected.speed =  sup.querySelector('.js-speed').innerText;
-            fightersSheets.push(fighterSelected)
+            fighterSelected.intel = sup.querySelector('.js-intel').innerText;
+            fighterSelected.strength = sup.querySelector('.js-strength').innerText;
+            fighterSelected.speed = sup.querySelector('.js-speed').innerText;
+            fighters.push(fighterSelected)
         })
-        return fightersSheets;
+        battle(fighters)
     })
 }
 
@@ -102,22 +115,63 @@ async function battleRoyal() {
         displayCharacters(allHeroesSheets);
         let fighters = [];
 
-        addOnClick(allHeroesSheets, fighters);
-        // removeOnClick(fighters);
-       const fightersArray = battleStart();
+        addOnClick();
+        removeOnClick();
+        battleStart(fighters);
 
-        // document.getElementById('battle').addEventListener('click', function(event, fighters){
 
-        // })
+        
     }
     catch (e) {
         console.error(e)
     }
 }
 
+/**
+ * Do the fight between attacker and defender
+ * @param {object} attacker -the object of the attacker
+ * @param {object} defender -the object of the defender
+ * @return {string} -in case the defender dies, return 'dead' to specifie the death
+ */
+function fight(attacker, defender) {
+    let atckPwr = getRandomBetweenValue((attacker.intel + attacker.speed + attacker.strength)/10, attacker.intel + attacker.speed + attacker.strength);
+    if (atckPwr > getRandomBetweenValue((defender.intel + defender.speed + defender.strength)/10, defender.intel + defender.speed + defender.strength)) {
+        return 'attacker'
+    }
+    else {
+        return 'defender'
+    }
+}
+
+/**
+ * Remove a caracter if he/she died from the caracter's array
+ * @param {array} array -caracter's array
+ * @param {number} dead -index of the dead
+ */
+function death(array, dead) {
+    array.splice(dead, 1);
+}
 
 
 
+/**
+ * Create the battle. Randomly get an attacker who figth a defender from your caracter's array
+ * @param {array} array - caracter's array
+ */
+function battle(array) {
+    let attacker = getRandomBetweenValue(0, array.length - 1);
+    let defender;
+    while (defender === undefined || defender === attacker) {
+        defender = getRandomBetweenValue(0, array.length - 1);
+    };
+    if (fight(array[attacker], array[defender]) === 'attacker') {
+        death(array, defender);
+    }
+    else {
+        death(array, attacker);
+    }
+    console.log(array);
+}
 
 battleRoyal()
 
