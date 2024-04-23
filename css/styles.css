@@ -1,41 +1,47 @@
-:root{
+:root {
     font-size: 16px;
 }
-*{
+
+* {
     margin: 0 0;
 }
+
 li {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
-button{
+
+button {
     border-style: none;
 }
 
-.selectedContainer{
+.selectedContainer {
     display: flex;
     flex-wrap: wrap;
 }
 
-.herosImg{
+.herosImg {
     height: 10rem;
     aspect-ratio: 1/2;
 }
 
-.head{
+.head {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.ttl{
+
+.ttl {
     padding-top: 30vh;
 }
-.selected{
+
+.selected {
     text-align: center;
 }
-.container{
+
+.container {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -43,13 +49,13 @@ button{
     position: fixed;
 }
 
-.supContainer{
+.supContainer {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
 }
 
-.button{
+.button {
     width: 10rem;
     height: 3rem;
     border-radius: 1rem;
@@ -57,6 +63,46 @@ button{
     background-color: antiquewhite;
 }
 
-.button:hover{
+.button:hover {
     background-color: aquamarine;
+}
+
+.battle {
+    display: flex;
+    background-color: #FFF;
+    height: 100%;
+    width: 100vw;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+
+}
+
+.name {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.publisher, 
+.alignment, 
+.name {
+    text-align: center;
+}
+
+.alignment {
+    font-weight: bold;
+}
+
+.intel {
+    color: #4086C3;
+}
+
+.strength {
+    color: #C33737;
+}
+
+.speed {
+    color: #5B9F5E;
 }
